@@ -19,7 +19,7 @@ My styled-components helpers
  * yarn add @nju33/styled-components styled-components @types/styled-components
  * ```
  */
-import {Mixin, RequiredAtomProps} from '@nju33/styled-components';
+import {Mixin, RequiredAtomProps, createMedia} from '@nju33/styled-components';
 ````
 
 ## Example
@@ -53,4 +53,30 @@ styled.div<RequiredAtomProps<MixinName>>`
   ${mixin.foo};
   ${mixin.bar};
 `;
+```
+
+```ts
+interface Sizes {
+	desktop: number;
+	tablet: number;
+	phone: number;
+}
+
+const media = createMedia<Sizes>({
+	desktop 992,
+	tablet: 768,
+	phone: 576
+});
+
+styled.div`
+	color: blue;
+
+	${media.desktop`
+		color: orange;
+	`};
+`;
+// color: blue;
+// @media screen and (min-width: 992px) {
+//   color: orange;
+// }
 ```

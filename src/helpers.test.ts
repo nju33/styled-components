@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components';
-import {Mixin} from './helpers';
+import {Mixin, createMedia} from './helpers';
 
 test('types', () => {
   const foo = 'foo' as 'foo';
@@ -31,4 +31,29 @@ test('types', () => {
   `;
 
   expect(1).toBe(1);
+});
+
+test('createMedia', () => {
+  const media = createMedia<{
+    desktop: number;
+    tablet: number;
+    phone: number;
+  }>({
+    desktop: 992,
+    tablet: 768,
+    phone: 576,
+  });
+
+  const div = styled.div`
+    ${media.desktop`
+      color: #fff;
+    `};
+    ${media.tablet`
+      color: #888;
+    `};
+  `;
+
+  const style = (div as any).componentStyle.rules.join('');
+  expect(style).toMatch('min-width: 992px');
+  expect(style).toMatch('min-width: 768px');
 });
